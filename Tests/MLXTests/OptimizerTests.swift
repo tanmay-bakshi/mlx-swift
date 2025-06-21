@@ -163,6 +163,12 @@ class OptimizerTests: XCTestCase {
         checkTrain(optimizer: Adamax(learningRate: 0.1), compile: true)
     }
 
+    func testNadam() {
+        checkShape(optimizer: Nadam(learningRate: 0.1))
+        checkTrain(optimizer: Nadam(learningRate: 0.1))
+        checkTrain(optimizer: Nadam(learningRate: 0.1), compile: true)
+    }
+
     func testLion() {
         checkShape(optimizer: Lion(learningRate: 0.1))
         checkTrain(optimizer: Lion(learningRate: 0.1))

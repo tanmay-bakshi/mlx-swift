@@ -51,6 +51,7 @@ for _ in 0 ..< epochs {
 - ``AdamW``
 - ``Adam``
 - ``Adamax``
+- ``Nadam``
 - ``Lion``
 - ``RMSprop``
 - ``SGD``

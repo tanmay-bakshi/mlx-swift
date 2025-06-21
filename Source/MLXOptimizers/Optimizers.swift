@@ -385,6 +385,36 @@ open class AdamW: Adam {
     }
 }
 
+/// The Nadam optimizer [1].
+///
+/// Nadam (Nesterov‑accelerated Adaptive Moment estimation) augments Adam with
+/// Nesterov's look‑ahead gradient.
+///
+/// Following the above convention, in contrast with [1], we do not use bias
+/// correction in the first and second moments for Nadam.
+///
+/// [1]: Dozat, T., 2016. Incorporating Nesterov Momentum into Adam. ICLR Workshop 2016.
+///
+/// ### See Also
+/// - <doc:MLXOptimizers>
+open class Nadam: Adam {
+
+    override open func applySingle(gradient: MLXArray, parameter: MLXArray, state: TupleState)
+        -> (MLXArray, TupleState)
+    {
+        let (b1, b2) = betas
+
+        var (m, v) = state.values
+
+        m = b1 * m + (1 - b1) * gradient
+        v = b2 * v + (1 - b2) * square(gradient)
+
+        let update = (b1 * m + (1 - b1) * gradient) / (sqrt(v) + eps)
+
+        return (parameter - learningRate * update, TupleState(m, v))
+    }
+}
+
 /// The Adamax optimizer, a variant of Adam based on the infinity norm [1].
 ///
 /// Our Adam implementation follows the original paper and omits the bias
